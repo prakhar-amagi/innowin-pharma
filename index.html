@@ -146,6 +146,7 @@
             padding: 1rem;
             box-shadow: 0 10px 20px var(--shadow);
             transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
         }
         .product-card:hover {
             transform: translateY(-5px);
@@ -288,6 +289,162 @@
             margin: 0.2rem 0;
             font-size: 0.95rem;
         }
+        
+        /* Product Modal Styles */
+        .product-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .product-modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .product-modal {
+            background-color: var(--white);
+            border-radius: 15px;
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2rem;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            background-color: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: bold;
+            z-index: 2;
+        }
+        
+        .modal-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        
+        .modal-image-container {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+            border-radius: 10px;
+            background-color: #f5f5f5;
+        }
+        
+        .modal-image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .modal-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            cursor: zoom-in;
+            transition: transform 0.3s ease;
+        }
+        
+        .modal-image.zoomed {
+            cursor: zoom-out;
+        }
+        
+        .modal-thumbnails {
+            display: flex;
+            gap: 10px;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .modal-thumbnail {
+            width: 60px;
+            height: 60px;
+            border-radius: 5px;
+            overflow: hidden;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        
+        .modal-thumbnail:hover {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+        
+        .modal-thumbnail.active {
+            opacity: 1;
+            box-shadow: 0 0 0 2px var(--accent-color);
+        }
+        
+        .modal-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .modal-info {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .modal-title {
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+        
+        .modal-description {
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        /* Zoom lens */
+        .img-zoom-lens {
+            position: absolute;
+            border: 1px solid #d4d4d4;
+            width: 100px;
+            height: 100px;
+            background-color: rgba(255, 255, 255, 0.2);
+            display: none;
+        }
+        
+        /* Responsive Styles */
         @media (max-width: 768px) {
             nav ul {
                 flex-direction: column;
@@ -298,6 +455,12 @@
             }
             .product-grid {
                 padding: 1rem;
+            }
+            .modal-content {
+                flex-direction: column;
+            }
+            .modal-image-container {
+                height: 300px;
             }
         }
     </style>
@@ -328,7 +491,7 @@
     <section id="products" class="products">
         <h2 class="section-title">Our Products</h2>
         <div class="product-grid">
-            <div class="product-card">
+            <div class="product-card" data-product-id="1">
                 <div class="product-image">
                     <div class="carousel-container" id="carousel-1">
                         <div class="carousel-slide active">
@@ -355,7 +518,7 @@
                 </div>
             </div>
             
-            <div class="product-card">
+            <div class="product-card" data-product-id="2">
                 <div class="product-image">
                     <div class="carousel-container" id="carousel-2">
                         <div class="carousel-slide active">
@@ -382,7 +545,7 @@
                 </div>
             </div>
             
-            <div class="product-card">
+            <div class="product-card" data-product-id="3">
                 <div class="product-image">
                     <div class="carousel-container" id="carousel-3">
                         <div class="carousel-slide active">
@@ -409,7 +572,7 @@
                 </div>
             </div>
             
-            <div class="product-card">
+            <div class="product-card" data-product-id="4">
                 <div class="product-image">
                     <div class="carousel-container" id="carousel-4">
                         <div class="carousel-slide active">
@@ -437,6 +600,31 @@
             </div>
         </div>
     </section>
+    
+    <!-- Product Modal -->
+    <div class="product-modal-overlay">
+        <div class="product-modal">
+            <div class="modal-close">&times;</div>
+            <div class="modal-content">
+                <div class="modal-image-container">
+                    <div class="modal-image-wrapper">
+                        <div class="img-zoom-lens"></div>
+                        <img src="" alt="Product image" class="modal-image">
+                    </div>
+                    <div class="modal-thumbnails">
+                        <!-- Thumbnails will be added dynamically -->
+                    </div>
+                </div>
+                <div class="modal-info">
+                    <h2 class="modal-title"></h2>
+                    <div class="modal-description"></div>
+                    <div class="modal-buttons">
+                        <a href="#" class="order-button modal-order-button">Order via WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     
     <section id="payment" class="payment">
         <h2 class="section-title">Easy Payment Options</h2>
@@ -528,7 +716,8 @@
                 
                 // Add click handlers to dots
                 dots.forEach((dot, index) => {
-                    dot.addEventListener('click', () => {
+                    dot.addEventListener('click', (e) => {
+                        e.stopPropagation(); // Prevent triggering parent card click
                         stopSlideshow();
                         showSlide(index);
                         startSlideshow();
@@ -541,6 +730,195 @@
                 // Pause slideshow when hovering over carousel
                 carousel.addEventListener('mouseenter', stopSlideshow);
                 carousel.addEventListener('mouseleave', startSlideshow);
+            });
+            
+            // Product Modal functionality
+            const productCards = document.querySelectorAll('.product-card');
+            const modalOverlay = document.querySelector('.product-modal-overlay');
+            const modal = document.querySelector('.product-modal');
+            const modalClose = document.querySelector('.modal-close');
+            const modalImage = document.querySelector('.modal-image');
+            const modalTitle = document.querySelector('.modal-title');
+            const modalDescription = document.querySelector('.modal-description');
+            const modalOrderButton = document.querySelector('.modal-order-button');
+            const modalThumbnails = document.querySelector('.modal-thumbnails');
+            const zoomLens = document.querySelector('.img-zoom-lens');
+            
+            // Product data
+            const products = {
+                1: {
+                    name: "Acinno-P",
+                    description: "<p>Contains: Aceclofenac (100 mg) & Paracetamol (325 mg) Tablet</p><p>Advanced formula for managing fever, pain and inflammation.</p>",
+                    images: ["acinno-p-1.jpg", "acinno-p-2.jpg", "acinno-p-3.jpg"],
+                    whatsapp: "https://wa.me/917018127313?text=I'm%20interested%20in%20Acinno-P"
+                },
+                2: {
+                    name: "Innoryl-D",
+                    description: "<p>Contains: Dextromethorphan HBr (10 mg). & Phenylephrine Hcl (5 mg) Chlorpheniramine Maleate (2 mg) Cough Syrup</p><p>Advanced formula for managing dry cough and relieving symptoms of severe cold.</p>",
+                    images: ["innoryl-d-1.jpg", "innoryl-d-2.jpg", "innoryl-d-1.jpg"],
+                    whatsapp: "https://wa.me/917018127313?text=I'm%20interested%20in%20Innoryl-D"
+                },
+                3: {
+                    name: "Accino-SP",
+                    description: "<p>Contains: Aceclofenac (100 mg), Paracetamol (325 mg) & Serratiopeptidase (15 mg) Tab</p><p>Advanced formula for managing fever, pain and severe inflammation.</p>",
+                    images: ["accino-sp-1.jpg", "accino-sp-2.jpg", "accino-sp-3.jpg"],
+                    whatsapp: "https://wa.me/917018127313?text=I'm%20interested%20in%20Accino-SP"
+                },
+                4: {
+                    name: "Rabiprin-DSR",
+                    description: "<p>Contains: Rabeprazole Sodium (EC-20 mg) & Domperidone (SR-30mg) Capsule</p><p>Effective relief for acid-related gastrointestinal disorders.</p>",
+                    images: ["rabiprin-dsr-1.jpg", "rabiprin-dsr-2.jpg", "rabiprin-dsr-3.jpg"],
+                    whatsapp: "https://wa.me/917018127313?text=I'm%20interested%20in%20Rabiprin-DSR"
+                }
+            };
+            
+            // Open modal when clicking on a product card
+            productCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const productId = card.getAttribute('data-product-id');
+                    const product = products[productId];
+                    
+                    // Set modal content
+                    modalTitle.textContent = product.name;
+                    modalDescription.innerHTML = product.description;
+                    modalOrderButton.href = product.whatsapp;
+                    
+                    // Clear existing thumbnails
+                    modalThumbnails.innerHTML = '';
+                    
+                    // Add thumbnails
+                    product.images.forEach((img, index) => {
+                        const thumbnail = document.createElement('div');
+                        thumbnail.className = `modal-thumbnail ${index === 0 ? 'active' : ''}`;
+                        thumbnail.innerHTML = `<img src="${img}" alt="${product.name} image ${index + 1}">`;
+                        thumbnail.addEventListener('click', () => {
+                            // Update main image
+                            modalImage.src = img;
+                            modalImage.alt = `${product.name} image ${index + 1}`;
+                            
+                            // Update active thumbnail
+                            document.querySelectorAll('.modal-thumbnail').forEach(thumb => {
+                                thumb.classList.remove('active');
+                            });
+                            thumbnail.classList.add('active');
+                        });
+                        modalThumbnails.appendChild(thumbnail);
+                    });
+                    
+                    // Set initial image
+                    modalImage.src = product.images[0];
+                    modalImage.alt = `${product.name} image 1`;
+                    
+                    // Show modal
+                    modalOverlay.classList.add('active');
+                    
+                    // Reset zoom
+                    modalImage.classList.remove('zoomed');
+                    modalImage.style.transform = 'scale(1)';
+                });
+            });
+            
+            // Close modal when clicking on the close button or outside the modal
+            modalClose.addEventListener('click', () => {
+                modalOverlay.classList.remove('active');
+            });
+            
+            modalOverlay.addEventListener('click', (event) => {
+                if (event.target === modalOverlay) {
+                    modalOverlay.classList.remove('active');
+                }
+            });
+            
+            // Prevent closing when clicking inside the modal
+            modal.addEventListener('click', (event) => {
+                event.stopPropagation();
+            });
+            
+            // Image zoom functionality
+            modalImage.addEventListener('click', () => {
+                if (modalImage.classList.contains('zoomed')) {
+                    // Zoom out
+                    modalImage.classList.remove('zoomed');
+                    modalImage.style.transform = 'scale(1)';
+                    zoomLens.style.display = 'none';
+                } else {
+                    // Zoom in
+                    modalImage.classList.add('zoomed');
+                    modalImage.style.transform = 'scale(2)';
+                    
+                    // For mobile, just enlarge the image
+                    if (window.innerWidth <= 768) {
+                        return;
+                    }
+                    
+                    // For desktop, add lens functionality
+                    zoomLens.style.display = 'block';
+                    
+                    // Add move events for the lens
+                    const imageWrapper = document.querySelector('.modal-image-wrapper');
+                    
+                    imageWrapper.addEventListener('mousemove', moveLens);
+                    imageWrapper.addEventListener('touchmove', moveLens);
+                    
+                    function moveLens(e) {
+                        e.preventDefault();
+                        
+                        // Get cursor position
+                        let pos = getCursorPos(e);
+                        let x = pos.x;
+                        let y = pos.y;
+                        
+                        // Prevent lens from going outside the image
+                        if (x > imageWrapper.offsetWidth - zoomLens.offsetWidth) {
+                            x = imageWrapper.offsetWidth - zoomLens.offsetWidth;
+                        }
+                        if (x < 0) {
+                            x = 0;
+                        }
+                        if (y > imageWrapper.offsetHeight - zoomLens.offsetHeight) {
+                            y = imageWrapper.offsetHeight - zoomLens.offsetHeight;
+                        }
+                        if (y < 0) {
+                            y = 0;
+                        }
+                        
+                        // Set position of lens
+                        zoomLens.style.left = x + "px";
+                        zoomLens.style.top = y + "px";
+                        
+                        // Move zoomed image
+                        const lensX = x / imageWrapper.offsetWidth;
+                        const lensY = y / imageWrapper.offsetHeight;
+                        
+                        modalImage.style.transformOrigin = `${lensX * 100}% ${lensY * 100}%`;
+                    }
+                    
+                    function getCursorPos(e) {
+                        let a, x = 0, y = 0;
+                        e = e || window.event;
+                        a = imageWrapper.getBoundingClientRect();
+                        
+                        // Get cursor coordinates relative to the image
+                        if (e.touches && e.touches[0]) {
+                            // Touch event
+                            x = e.touches[0].clientX - a.left;
+                            y = e.touches[0].clientY - a.top;
+                        } else {
+                            // Mouse event
+                            x = e.clientX - a.left;
+                            y = e.clientY - a.top;
+                        }
+                        
+                        return {x: x, y: y};
+                    }
+                }
+            });
+            
+            // Handle escape key to close modal
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+                    modalOverlay.classList.remove('active');
+                }
             });
         });
     </script>
