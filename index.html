@@ -15,20 +15,17 @@
             --white: #ffffff;
             --shadow: rgba(0, 0, 0, 0.1);
         }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
         }
-
         body {
             background-color: var(--light-bg);
             color: var(--text-color);
             line-height: 1.6;
         }
-
         header {
             background: linear-gradient(120deg, var(--primary-color), var(--accent-color));
             color: white;
@@ -38,7 +35,6 @@
             position: relative;
             overflow: hidden;
         }
-
         header::after {
             content: "";
             position: absolute;
@@ -50,13 +46,11 @@
             animation: pulse 5s infinite;
             z-index: 0;
         }
-
         @keyframes pulse {
             0% { transform: scale(1); opacity: 0.3; }
             50% { transform: scale(1.2); opacity: 0.5; }
             100% { transform: scale(1); opacity: 0.3; }
         }
-
         .logo-container {
             position: relative;
             z-index: 1;
@@ -65,18 +59,15 @@
             justify-content: center;
             margin-bottom: 1rem;
         }
-
         .logo-image {
             width: 80px;
             height: 80px;
             margin-right: 15px;
         }
-
         .logo {
             font-size: 2.5rem;
             font-weight: 700;
         }
-
         .tagline {
             font-style: italic;
             font-weight: 500;
@@ -84,7 +75,6 @@
             z-index: 1;
             position: relative;
         }
-
         nav {
             background-color: var(--white);
             padding: 1rem;
@@ -93,47 +83,39 @@
             top: 0;
             z-index: 10;
         }
-
         nav ul {
             display: flex;
             justify-content: center;
             list-style: none;
         }
-
         nav ul li {
             margin: 0 1rem;
         }
-
         nav ul li a {
             color: var(--text-color);
             font-weight: 600;
             text-decoration: none;
             transition: 0.3s;
         }
-
         nav ul li a:hover {
             color: var(--accent-color);
             transform: scale(1.05);
         }
-
         .hero {
             padding: 4rem 1rem;
             background: var(--light-bg);
             text-align: center;
         }
-
         .hero h1 {
             font-size: 2.8rem;
             color: var(--primary-color);
             margin-bottom: 1rem;
         }
-
         .hero p {
             font-size: 1.2rem;
             max-width: 750px;
             margin: 0 auto;
         }
-
         .section-title {
             font-size: 2rem;
             text-align: center;
@@ -141,7 +123,6 @@
             color: var(--accent-color);
             position: relative;
         }
-
         .section-title:after {
             content: '';
             width: 80px;
@@ -150,7 +131,6 @@
             display: block;
             margin: 0.5rem auto 0;
         }
-
         .product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -159,7 +139,6 @@
             margin: 0 auto;
             padding: 2rem;
         }
-
         .product-card {
             background: rgba(255, 255, 255, 0.8);
             border-radius: 15px;
@@ -168,31 +147,84 @@
             box-shadow: 0 10px 20px var(--shadow);
             transition: transform 0.3s, box-shadow 0.3s;
         }
-
         .product-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 25px var(--shadow);
         }
-
-        .product-image img {
-            max-width: 100%;
-            height: auto;
+        
+        /* Image Carousel Styles */
+        .product-image {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
             border-radius: 10px;
+            margin-bottom: 1rem;
         }
-
+        
+        .carousel-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .carousel-slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f5f5f5;
+        }
+        
+        .carousel-slide.active {
+            opacity: 1;
+        }
+        
+        .carousel-slide img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .carousel-dots {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            z-index: 2;
+        }
+        
+        .carousel-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .carousel-dot.active {
+            background-color: var(--accent-color);
+        }
+        
         .product-title {
             font-size: 1.3rem;
             color: var(--accent-color);
             font-weight: 600;
             margin: 1rem 0 0.5rem;
         }
-
         .product-description {
             font-size: 0.95rem;
             color: #555;
             margin-bottom: 0.5rem;
         }
-
         .order-button {
             display: inline-block;
             background-color: var(--accent-color);
@@ -203,18 +235,15 @@
             font-weight: 600;
             transition: 0.3s;
         }
-
         .order-button:hover {
             background-color: #1570CD;
             transform: scale(1.05);
         }
-
         .payment {
             background-color: var(--white);
             padding: 3rem 1rem;
             text-align: center;
         }
-
         .payment-options {
             display: flex;
             flex-wrap: wrap;
@@ -222,7 +251,6 @@
             justify-content: center;
             margin-top: 2rem;
         }
-
         .payment-option {
             background: #fff;
             padding: 2rem;
@@ -230,7 +258,6 @@
             box-shadow: 0 10px 20px var(--shadow);
             max-width: 300px;
         }
-
         .qr-code {
             width: 180px;
             height: 180px;
@@ -242,40 +269,33 @@
             background: #f5f5f5;
             border-radius: 10px;
         }
-
         footer {
             background-color: var(--text-color);
             color: white;
             padding: 2rem 1rem;
             text-align: center;
         }
-
         .social-links a {
             color: #fff;
             margin: 0 0.7rem;
             font-size: 1.2rem;
             transition: color 0.3s;
         }
-
         .social-links a:hover {
             color: var(--accent-color);
         }
-
         .contact-info p {
             margin: 0.2rem 0;
             font-size: 0.95rem;
         }
-
         @media (max-width: 768px) {
             nav ul {
                 flex-direction: column;
                 gap: 0.5rem;
             }
-
             .hero h1 {
                 font-size: 2rem;
             }
-
             .product-grid {
                 padding: 1rem;
             }
@@ -310,7 +330,22 @@
         <div class="product-grid">
             <div class="product-card">
                 <div class="product-image">
-                    <img src="placeholder-product-1.jpg" alt="Acinno-P">
+                    <div class="carousel-container" id="carousel-1">
+                        <div class="carousel-slide active">
+                            <img src="acinno-p-1.jpg" alt="Acinno-P Front">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="acinno-p-2.jpg" alt="Acinno-P Back">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="acinno-p-3.jpg" alt="Acinno-P Package">
+                        </div>
+                        <div class="carousel-dots">
+                            <span class="carousel-dot active" data-slide="0"></span>
+                            <span class="carousel-dot" data-slide="1"></span>
+                            <span class="carousel-dot" data-slide="2"></span>
+                        </div>
+                    </div>
                 </div>
                 <div class="product-info">
                     <h3 class="product-title">Acinno-P</h3>
@@ -322,7 +357,22 @@
             
             <div class="product-card">
                 <div class="product-image">
-                    <img src="placeholder-product-2.jpg" alt="Innoryl-D">
+                    <div class="carousel-container" id="carousel-2">
+                        <div class="carousel-slide active">
+                            <img src="innoryl-d-1.jpg" alt="Innoryl-D Front">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="innoryl-d-2.jpg" alt="Innoryl-D Back">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="innoryl-d-1.jpg" alt="Innoryl-D Package">
+                        </div>
+                        <div class="carousel-dots">
+                            <span class="carousel-dot active" data-slide="0"></span>
+                            <span class="carousel-dot" data-slide="1"></span>
+                            <span class="carousel-dot" data-slide="2"></span>
+                        </div>
+                    </div>
                 </div>
                 <div class="product-info">
                     <h3 class="product-title">Innoryl-D</h3>
@@ -334,7 +384,22 @@
             
             <div class="product-card">
                 <div class="product-image">
-                    <img src="placeholder-product-3.jpg" alt="Accino-SP">
+                    <div class="carousel-container" id="carousel-3">
+                        <div class="carousel-slide active">
+                            <img src="accino-sp-1.jpg" alt="Accino-SP Front">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="accino-sp-2.jpg" alt="Accino-SP Back">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="accino-sp-3.jpg" alt="Accino-SP Package">
+                        </div>
+                        <div class="carousel-dots">
+                            <span class="carousel-dot active" data-slide="0"></span>
+                            <span class="carousel-dot" data-slide="1"></span>
+                            <span class="carousel-dot" data-slide="2"></span>
+                        </div>
+                    </div>
                 </div>
                 <div class="product-info">
                     <h3 class="product-title">Accino-SP</h3>
@@ -346,7 +411,22 @@
             
             <div class="product-card">
                 <div class="product-image">
-                    <img src="placeholder-product-4.jpg" alt="Rabiprin-DSR">
+                    <div class="carousel-container" id="carousel-4">
+                        <div class="carousel-slide active">
+                            <img src="rabiprin-dsr-1.jpg" alt="Rabiprin-DSR Front">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="rabiprin-dsr-2.jpg" alt="Rabiprin-DSR Back">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="rabiprin-dsr-3.jpg" alt="Rabiprin-DSR Package">
+                        </div>
+                        <div class="carousel-dots">
+                            <span class="carousel-dot active" data-slide="0"></span>
+                            <span class="carousel-dot" data-slide="1"></span>
+                            <span class="carousel-dot" data-slide="2"></span>
+                        </div>
+                    </div>
                 </div>
                 <div class="product-info">
                     <h3 class="product-title">Rabiprin-DSR</h3>
@@ -400,5 +480,69 @@
             &copy; 2025 InnowiN Pharma Pvt. Ltd. All rights reserved.
         </div>
     </footer>
+
+    <script>
+        // Image carousel functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize all carousels
+            const carousels = document.querySelectorAll('.carousel-container');
+            
+            carousels.forEach(carousel => {
+                const slides = carousel.querySelectorAll('.carousel-slide');
+                const dots = carousel.querySelectorAll('.carousel-dot');
+                let currentSlide = 0;
+                let interval;
+                
+                // Function to show a specific slide
+                function showSlide(index) {
+                    // Hide all slides
+                    slides.forEach(slide => {
+                        slide.classList.remove('active');
+                    });
+                    
+                    // Deactivate all dots
+                    dots.forEach(dot => {
+                        dot.classList.remove('active');
+                    });
+                    
+                    // Show the selected slide and activate the corresponding dot
+                    slides[index].classList.add('active');
+                    dots[index].classList.add('active');
+                    
+                    // Update current slide index
+                    currentSlide = index;
+                }
+                
+                // Start automatic slideshow
+                function startSlideshow() {
+                    interval = setInterval(() => {
+                        let nextSlide = (currentSlide + 1) % slides.length;
+                        showSlide(nextSlide);
+                    }, 3000); // Change slide every 3 seconds
+                }
+                
+                // Stop slideshow when user interacts
+                function stopSlideshow() {
+                    clearInterval(interval);
+                }
+                
+                // Add click handlers to dots
+                dots.forEach((dot, index) => {
+                    dot.addEventListener('click', () => {
+                        stopSlideshow();
+                        showSlide(index);
+                        startSlideshow();
+                    });
+                });
+                
+                // Start the slideshow for this carousel
+                startSlideshow();
+                
+                // Pause slideshow when hovering over carousel
+                carousel.addEventListener('mouseenter', stopSlideshow);
+                carousel.addEventListener('mouseleave', startSlideshow);
+            });
+        });
+    </script>
 </body>
 </html>
